@@ -1,6 +1,6 @@
 package GameMaterial;
 
-public class Card {
+public abstract class Card {
 
     private boolean used;
     private String name;
