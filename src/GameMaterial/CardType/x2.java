@@ -1,5 +1,4 @@
 package GameMaterial.CardType;
-
 import GameMaterial.Card;
 
 public class x2 extends Card {

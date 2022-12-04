@@ -1,0 +1,189 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "Main",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1703677370 { 
+   	label=Gameplay
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Game1703677370[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Game</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ Deck(): ArrayList&lt;Card&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createNewListDice(len: int): ArrayList&lt;Dice&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getRandomCard(listCard: ArrayList&lt;Card&gt;): Card</TD></TR>
+<TR><TD ALIGN="LEFT" >+ numberofPlayers(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ otherPlayers(listPlayer: ArrayList&lt;Player&gt;, p: Player)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ printCurrentScore(playerList: ArrayList&lt;Player&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ printWelcome()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ sortPlayers(nPlayer: int): ArrayList&lt;Player&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Player1703677370[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Player</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   currentPoints: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   diceChange: ArrayList&lt;Dice&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   diceKeep: ArrayList&lt;Dice&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   finalPoints: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   name: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   numberDice: int[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   roundPoints: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- allDice()</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkDiceSelection(selectedDice: ArrayList&lt;Integer&gt;): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkNull(c: Card): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkSelectionOrder(selectedDice: ArrayList&lt;Integer&gt;): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkTutto(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- ifTutto(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ playerTurn(cardIs: Card, lDice: ArrayList&lt;Dice&gt;): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- printDice(name: String, ld: ArrayList&lt;Dice&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- rerollDice(d: Dice)</TD></TR>
+<TR><TD ALIGN="LEFT" >- selectDice(c: Card, ld: ArrayList&lt;Dice&gt;)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_2390489 { 
+   	label=Main
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Main2390489[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Main</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ main(args: String[])</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_618616665 { 
+   	label=GameMaterial
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Dice618616665[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Dice</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   dice: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ rollDice()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+'edges    
+Main2390489 -> Player1703677370[label="main() -> playerTurn()"];
+Player1703677370 -> Dice618616665[label="diceChange
+[0..*]"];
+Player1703677370 -> Dice618616665[label="diceKeep
+[0..*]"];
+    
+}
+@enduml

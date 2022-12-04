@@ -1,14 +1,14 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.IOException;
-
 import GameMaterial.Card;
 import GameMaterial.CardType.Cloverleaf;
 import GameMaterial.CardType.PlusMinus;
 import GameMaterial.CardType.Stop;
 import GameMaterial.Dice;
-import Gameplay.Player;
 import Gameplay.Game;
+import Gameplay.Player;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class Main {
@@ -31,10 +31,10 @@ public class Main {
         while(!playerWon){
             for (int i=0;i<listPlayer.size();i++){
                 System.out.println("\nIt's your turn "+listPlayer.get(i).getName()+"!");
-                boolean errorStart=true;
+                boolean startingPoint=true;
                 String input="";
 
-                while (errorStart){
+                while (startingPoint){
                     System.out.println("Enter R to roll the dice");
                     System.out.println("Enter D to display the scores");
                     Scanner entry = new Scanner(System.in);
@@ -66,7 +66,7 @@ public class Main {
                                     playerWon=true;
                                 }
                             }
-                            errorStart=false;
+                            startingPoint=false;
                         }
                         else{
                             Game.printCurrentScore(listPlayer);

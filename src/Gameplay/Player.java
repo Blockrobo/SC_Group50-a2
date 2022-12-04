@@ -1,25 +1,19 @@
 package Gameplay;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import GameMaterial.Card;
+import GameMaterial.CardType.*;
+import GameMaterial.Dice;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import GameMaterial.CardType.Bonus;
-import GameMaterial.CardType.Cloverleaf;
-import GameMaterial.CardType.Fireworks;
-import GameMaterial.CardType.PlusMinus;
-import GameMaterial.CardType.Stop;
-import GameMaterial.CardType.Straight;
-import GameMaterial.CardType.x2;
-import GameMaterial.Card;
-import GameMaterial.Dice;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class Player {
 
-    private String name;
+    private final String name;
     private int finalPoints;
     private int currentPoints;
     private int roundPoints;
@@ -203,7 +197,7 @@ public class Player {
     private void printDice(String name,ArrayList<Dice> ld){
         System.out.print(name+"  ");
         for (Dice d : ld){
-            System.out.print(d.getDie()+"  ");
+            System.out.print(d.getDice()+"  ");
 
         }
         System.out.println("");
@@ -215,7 +209,7 @@ public class Player {
             numberDice[i]=0;
         }
         for (int i = 0; i< diceChange.size(); i++){
-            numberDice[diceChange.get(i).getDie()-1]++;
+            numberDice[diceChange.get(i).getDice()-1]++;
         }
         if (c instanceof Straight){
             if (diceKeep.size()==0){
@@ -225,7 +219,7 @@ public class Player {
             for (int i = 0; i<this.diceChange.size(); i++){
                 nullthrow=false;
                 for (int j = 0; j< diceKeep.size(); j++){
-                    if (diceChange.get(i).getDie()== diceKeep.get(j).getDie()){
+                    if (diceChange.get(i).getDice()== diceKeep.get(j).getDice()){
                         nullthrow=true;
                     }
                 }
@@ -292,26 +286,25 @@ public class Player {
 
     private void selectDice(Card c, ArrayList<Dice> ld) throws IOException{
         boolean selected=false;
-        ArrayList<Integer> listOptions = new ArrayList<Integer>();
+        ArrayList<Integer> selectedDice = new ArrayList<Integer>();
         while (!selected){
             try{
-                listOptions.clear();
-                System.out.println("Enter position of dice you want to keep (Ex. '2' to keep the second die from the left): ");
+                selectedDice.clear();
+                System.out.println("Enter position of dice you want to keep (Ex. '2' to keep the second dice from the left): ");
                 Scanner tec = new Scanner(System.in);
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 String  lines = br.readLine();
                 String[] strs = lines.trim().split("\\s+");
 
                 for (int i = 0; i < strs.length; i++) {
-                    listOptions.add(Integer.parseInt(strs[i]));
+                    selectedDice.add(Integer.parseInt(strs[i]));
                 }
-
 
                 if (c instanceof Straight){
-                    selected= checkSelectionOrder(listOptions);
+                    selected = checkSelectionOrder(selectedDice);
                 }
                 else{
-                    selected= checkDiceSelection(listOptions);
+                    selected = checkDiceSelection(selectedDice);
                 }
             }
             catch (Exception NumberFormatException){
@@ -320,32 +313,32 @@ public class Player {
 
 
         }
-        for (int values: listOptions){
-            Dice d=new Dice(this.diceChange.get(values-1).getDie());
+        for (int values: selectedDice){
+            Dice d=new Dice(this.diceChange.get(values-1).getDice());
             this.diceKeep.add(d);
             if (!(c instanceof Straight) && !(c instanceof PlusMinus) && !(c instanceof Cloverleaf)){
-                if (numberDice[diceChange.get(values-1).getDie()-1]>=3){
-                    this.currentPoints += pointTriplet[diceChange.get(values-1).getDie()-1];
-                    numberDice[diceChange.get(values-1).getDie()-1]-=3;
+                if (numberDice[diceChange.get(values-1).getDice()-1]>=3){
+                    this.currentPoints += pointTriplet[diceChange.get(values-1).getDice()-1];
+                    numberDice[diceChange.get(values-1).getDice()-1]-=3;
                 }
-                else if (diceChange.get(values-1).getDie()==1 && numberDice[diceChange.get(values-1).getDie()-1]!=0){
+                else if (diceChange.get(values-1).getDice()==1 && numberDice[diceChange.get(values-1).getDice()-1]!=0){
                     this.currentPoints += point1;
-                    numberDice[diceChange.get(values-1).getDie()-1]--;
+                    numberDice[diceChange.get(values-1).getDice()-1]--;
                 }
-                else if (diceChange.get(values-1).getDie()==5 && numberDice[diceChange.get(values-1).getDie()-1]!=0){
+                else if (diceChange.get(values-1).getDice()==5 && numberDice[diceChange.get(values-1).getDice()-1]!=0){
                     this.currentPoints += point5;
-                    numberDice[diceChange.get(values-1).getDie()-1]--;
+                    numberDice[diceChange.get(values-1).getDice()-1]--;
                 }
             }
         }
-        for (int i=0;i<listOptions.size();i++){
+        for (int i=0;i<selectedDice.size();i++){
             diceChange.remove(0);
         }
     }
 
     private boolean checkTutto() {
         if (diceKeep.size()==Dice.numberofDice){
-            System.out.println("TUTTO!");
+            System.out.println("TUTTO!!!");
             return true;
         }
         return false;
@@ -353,7 +346,7 @@ public class Player {
 
     private void rerollDice(Dice d) {
         for (int i = 0; i< diceChange.size(); i++){
-            if (diceChange.get(i).getDie()==d.getDie()){
+            if (diceChange.get(i).getDice()==d.getDice()){
                 diceChange.remove(i);
                 return;
             }
@@ -361,20 +354,20 @@ public class Player {
         }
     }
 
-    private boolean checkDiceSelection(ArrayList<Integer> listOptions) {
-        int [] provisionalList=new int[6];
-        for (int value : listOptions){
-            if (numberDice[diceChange.get(value-1).getDie()-1]<3 && diceChange.get(value-1).getDie() !=1 && diceChange.get(value-1).getDie() !=5){
+    private boolean checkDiceSelection(ArrayList<Integer> selectedDice) {
+        int [] bufferList=new int[6];
+        for (int value : selectedDice){
+            if (numberDice[diceChange.get(value-1).getDice()-1]<3 && diceChange.get(value-1).getDice() !=1 && diceChange.get(value-1).getDice() !=5){
                 System.out.println("Wrong input! Try again");
                 return false;
             }
             else{
-                provisionalList[diceChange.get(value-1).getDie()-1]++;
+                bufferList[diceChange.get(value-1).getDice()-1]++;
             }
 
         }
         for (int i=0;i<6;i++){
-            if(provisionalList[i]!=3 && provisionalList[i]!=0 && i+1!=1 && i+1!=5){
+            if(bufferList[i]!=3 && bufferList[i]!=0 && i+1!=1 && i+1!=5){
                 System.out.println("Wrong input! Try again");
                 return false;
             }
@@ -383,16 +376,16 @@ public class Player {
         return true;
     }
 
-    private boolean checkSelectionOrder(ArrayList<Integer> listOptions) {
-        for (int value: listOptions){
-            for (int value2: listOptions){
-                if (diceChange.get(value-1).getDie()== diceChange.get(value2-1).getDie() && value!=value2){
+    private boolean checkSelectionOrder(ArrayList<Integer> selectedDice) {
+        for (int value: selectedDice){
+            for (int value2: selectedDice){
+                if (diceChange.get(value-1).getDice()== diceChange.get(value2-1).getDice() && value!=value2){
                     System.out.println("Wrong input! Try again");
                     return false;
                 }
             }
             for (Dice dice: diceKeep){
-                if (dice.getDie()== diceChange.get(value-1).getDie()){
+                if (dice.getDice()== diceChange.get(value-1).getDice()){
                     System.out.println("Wrong input! Try again");
                     return false;
                 }
